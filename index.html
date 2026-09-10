@@ -409,35 +409,110 @@
         gap: 0.3rem;
       }
 
-      @media (max-width: 768px) {
-        .reviews-grid {
-          grid-template-columns: 1fr;
-        }
+      /* ── Hamburger Button ── */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 8px;
+        transition: background 0.2s ease;
       }
+      .hamburger:hover {
+        background: rgba(134, 239, 172, 0.2);
+      }
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: #ffffff;
+        border-radius: 2px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transform-origin: center;
+      }
+      /* open 상태 → X 모양 */
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-      @media (max-width: 680px) {
+      /* ── Mobile Responsive ── */
+      @media (max-width: 768px) {
+        /* 헤더: 로고 + 햄버거 한 줄 */
         .app-header {
-          padding: 0.9rem 1.2rem;
+          position: relative;
           flex-wrap: wrap;
-          gap: 0.8rem;
+          padding: 0.9rem 1.2rem;
+          gap: 0;
         }
+
+        .hamburger { display: flex; }
+
+        /* badge 숨김 (모바일 공간 절약) */
+        .header-badge { display: none; }
+
+        /* header-right: 헤더 아래 전체 너비로 아코디언 펼침 */
         .header-right {
-          gap: 1rem;
+          order: 3;
+          width: 100%;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.35s ease;
         }
+
+        /* JS open 클래스 추가 시 펼침 */
+        .header-right.open {
+          max-height: 300px;
+        }
+
         .nav-menu {
-          gap: 0.8rem;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          padding: 0.6rem 0 0.8rem;
+          border-top: 1px solid rgba(134, 239, 172, 0.2);
+          margin-top: 0.4rem;
         }
+
         .nav-item {
-          font-size: 0.9rem;
-          padding: 0.3rem 0.5rem;
+          padding: 0.75rem 0.5rem;
+          font-size: 1rem;
+          border-radius: 6px;
+          border-bottom: 1px solid rgba(134, 239, 172, 0.1);
         }
+        .nav-item:last-child { border-bottom: none; }
+
+        /* 본문 여백 + 섹션 간격 축소 */
         .app-main {
           padding: 2rem 1rem 3rem;
-          gap: 3.5rem;
+          gap: 3rem;
         }
+
+        /* 후기 카드: 1열 세로 나열 */
+        .reviews-grid {
+          grid-template-columns: 1fr;
+          gap: 1.2rem;
+        }
+
         .message-card {
           padding: 2rem 1.5rem;
+          width: 100%;
         }
+
+        .section-heading {
+          font-size: 1.5rem;
+        }
+
+        .review-card {
+          padding: 1.4rem;
+        }
+
         .app-footer {
           padding: 1.2rem;
           text-align: center;
@@ -454,7 +529,15 @@
         </svg>
         <span class="logo-title">나의 첫 서비스</span>
       </div>
-      <div class="header-right">
+
+      <!-- 햄버거 버튼 (모바일에서만 표시) -->
+      <button class="hamburger" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="header-right" id="headerRight">
         <nav class="nav-menu" aria-label="메인 메뉴">
           <a href="#features" class="nav-item">핵심기능</a>
           <a href="#reviews" class="nav-item">사용자 후기</a>
@@ -626,6 +709,32 @@
 
       // 초기 설정
       updateUI(0);
+
+      // ── 햄버거 메뉴 토글 ──
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const headerRight  = document.getElementById('headerRight');
+
+      function toggleMenu(open) {
+        const isOpen = open !== undefined ? open : !hamburgerBtn.classList.contains('open');
+        hamburgerBtn.classList.toggle('open', isOpen);
+        headerRight.classList.toggle('open', isOpen);
+        hamburgerBtn.setAttribute('aria-expanded', isOpen);
+        hamburgerBtn.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
+      }
+
+      hamburgerBtn.addEventListener('click', () => toggleMenu());
+
+      // 메뉴 항목 클릭 시 자동 닫기
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => toggleMenu(false));
+      });
+
+      // 메뉴 바깥 클릭 시 닫기
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.app-header')) {
+          toggleMenu(false);
+        }
+      });
     </script>
   </body>
 </html>
