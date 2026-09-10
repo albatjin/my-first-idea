@@ -441,11 +441,15 @@
 
       /* ── Mobile Responsive ── */
       @media (max-width: 768px) {
+        body {
+          font-size: 15px;
+        }
+
         /* 헤더: 로고 + 햄버거 한 줄 */
         .app-header {
           position: relative;
           flex-wrap: wrap;
-          padding: 0.9rem 1.2rem;
+          padding: 0.85rem 1.2rem;
           gap: 0;
         }
 
@@ -482,7 +486,7 @@
 
         .nav-item {
           padding: 0.75rem 0.5rem;
-          font-size: 1rem;
+          font-size: 0.95rem;
           border-radius: 6px;
           border-bottom: 1px solid rgba(134, 239, 172, 0.1);
         }
@@ -491,30 +495,79 @@
         /* 본문 여백 + 섹션 간격 축소 */
         .app-main {
           padding: 2rem 1rem 3rem;
-          gap: 3rem;
+          gap: 2.8rem;
         }
 
-        /* 후기 카드: 1열 세로 나열 */
-        .reviews-grid {
-          grid-template-columns: 1fr;
-          gap: 1.2rem;
-        }
-
-        .message-card {
-          padding: 2rem 1.5rem;
-          width: 100%;
+        .section-tag {
+          font-size: 0.8rem;
+          padding: 0.3rem 0.8rem;
         }
 
         .section-heading {
-          font-size: 1.5rem;
+          font-size: 1.45rem;
+        }
+
+        .message-card {
+          padding: 1.8rem 1.2rem;
+          width: 100%;
+          border-radius: 22px;
+        }
+
+        .message-badge {
+          font-size: 0.78rem;
+        }
+
+        .message-text {
+          font-size: clamp(1.65rem, 6vw, 2.2rem);
+        }
+
+        /* 📱 모바일 터치 최적화 버튼: 손가락으로 누르기 좋은 높이(52px)와 넉넉한 터치 패딩 */
+        .action-btn {
+          font-size: 1.05rem;
+          padding: 0.95rem 2rem;
+          min-height: 52px;
+          width: 100%;
+          max-width: 320px;
+          justify-content: center;
+          gap: 0.5rem;
+          box-shadow: 0 10px 24px var(--btn-shadow);
+        }
+
+        /* 힌트 문구 축소 */
+        .hint {
+          font-size: 0.86rem;
+          text-align: center;
+          line-height: 1.4;
+        }
+
+        /* 후기 카드: 1열 세로 나열 및 본문 폰트 약간 축소 */
+        .reviews-grid {
+          grid-template-columns: 1fr;
+          gap: 1.1rem;
         }
 
         .review-card {
-          padding: 1.4rem;
+          padding: 1.3rem;
+          border-radius: 18px;
+        }
+
+        .review-name {
+          font-size: 0.98rem;
+        }
+
+        .review-role {
+          font-size: 0.8rem;
+        }
+
+        /* 후기 본문 폰트 최적화 */
+        .review-content {
+          font-size: 0.9rem;
+          line-height: 1.6;
         }
 
         .app-footer {
-          padding: 1.2rem;
+          padding: 1.1rem;
+          font-size: 0.88rem;
           text-align: center;
         }
       }
